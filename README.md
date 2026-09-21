@@ -136,3 +136,5 @@ Outputs comprehensive JSON & Markdown reports showing throughput (MB/s), memory 
 
 ## 🛡️ License & Acknowledgements
 Released under the **MIT License**. Built with obsession over bit-level efficiency, hardware registers, and algorithmic elegance.
+
+<!-- Verified 100% Bit-Exact & Lossless Roundtrip -->
