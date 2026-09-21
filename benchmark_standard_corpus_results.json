@@ -1,0 +1,200 @@
+{
+  "canterbury": {
+    "files": [
+      {
+        "file": "alice29.txt",
+        "orig_size": 152089,
+        "lattice": 43431,
+        "zstd22": 49211,
+        "brotli11": 46487,
+        "lzma9": 48492,
+        "bzip2": 43202,
+        "gzip9": 54182,
+        "lattice_comp_time": 0.11651050000000396,
+        "lattice_lossless": true,
+        "winner": "bzip2"
+      },
+      {
+        "file": "asyoulik.txt",
+        "orig_size": 125179,
+        "lattice": 43865,
+        "zstd22": 45137,
+        "brotli11": 42712,
+        "lzma9": 44536,
+        "bzip2": 39569,
+        "gzip9": 48790,
+        "lattice_comp_time": 0.08871089999956894,
+        "lattice_lossless": true,
+        "winner": "bzip2"
+      },
+      {
+        "file": "cp.html",
+        "orig_size": 24603,
+        "lattice": 7715,
+        "zstd22": 7713,
+        "brotli11": 6894,
+        "lzma9": 7644,
+        "bzip2": 7624,
+        "gzip9": 7952,
+        "lattice_comp_time": 0.016661099998600548,
+        "lattice_lossless": true,
+        "winner": "Brotli-11"
+      },
+      {
+        "file": "fields.c",
+        "orig_size": 11150,
+        "lattice": 2908,
+        "zstd22": 3015,
+        "brotli11": 2717,
+        "lzma9": 3028,
+        "bzip2": 3039,
+        "gzip9": 3127,
+        "lattice_comp_time": 0.059370300001319265,
+        "lattice_lossless": true,
+        "winner": "Brotli-11"
+      },
+      {
+        "file": "grammar.lsp",
+        "orig_size": 3721,
+        "lattice": 1255,
+        "zstd22": 1211,
+        "brotli11": 1124,
+        "lzma9": 1292,
+        "bzip2": 1283,
+        "gzip9": 1234,
+        "lattice_comp_time": 0.009178099997370737,
+        "lattice_lossless": true,
+        "winner": "Brotli-11"
+      },
+      {
+        "file": "kennedy.xls",
+        "orig_size": 1029744,
+        "lattice": 67577,
+        "zstd22": 64814,
+        "brotli11": 61498,
+        "lzma9": 49116,
+        "bzip2": 130280,
+        "gzip9": 207041,
+        "lattice_comp_time": 0.14914929999940796,
+        "lattice_lossless": true,
+        "winner": "LZMA-9"
+      },
+      {
+        "file": "lcet10.txt",
+        "orig_size": 426754,
+        "lattice": 118589,
+        "zstd22": 121336,
+        "brotli11": 113416,
+        "lzma9": 119500,
+        "bzip2": 107706,
+        "gzip9": 144451,
+        "lattice_comp_time": 0.453817199999321,
+        "lattice_lossless": true,
+        "winner": "bzip2"
+      },
+      {
+        "file": "plrabn12.txt",
+        "orig_size": 481861,
+        "lattice": 165785,
+        "zstd22": 167438,
+        "brotli11": 163267,
+        "lzma9": 165412,
+        "bzip2": 145577,
+        "gzip9": 194344,
+        "lattice_comp_time": 0.6009861000020464,
+        "lattice_lossless": true,
+        "winner": "bzip2"
+      },
+      {
+        "file": "ptt5",
+        "orig_size": 513216,
+        "lattice": 44156,
+        "zstd22": 43537,
+        "brotli11": 40939,
+        "lzma9": 41992,
+        "bzip2": 49759,
+        "gzip9": 52233,
+        "lattice_comp_time": 0.19334620000154246,
+        "lattice_lossless": true,
+        "winner": "Brotli-11"
+      },
+      {
+        "file": "sum",
+        "orig_size": 38240,
+        "lattice": 11064,
+        "zstd22": 11101,
+        "brotli11": 10144,
+        "lzma9": 9452,
+        "bzip2": 12909,
+        "gzip9": 12850,
+        "lattice_comp_time": 0.0789537000018754,
+        "lattice_lossless": true,
+        "winner": "LZMA-9"
+      },
+      {
+        "file": "xargs.1",
+        "orig_size": 4227,
+        "lattice": 1754,
+        "zstd22": 1724,
+        "brotli11": 1464,
+        "lzma9": 1812,
+        "bzip2": 1762,
+        "gzip9": 1748,
+        "lattice_comp_time": 0.022550599998794496,
+        "lattice_lossless": true,
+        "winner": "Brotli-11"
+      }
+    ],
+    "totals": {
+      "lattice": {
+        "orig": 2810784,
+        "comp": 508099,
+        "ctime": 1.7892,
+        "dtime": 0.3597,
+        "wins": 0
+      },
+      "zstd22": {
+        "orig": 2810784,
+        "comp": 516237,
+        "ctime": 2.724,
+        "dtime": 0.0134,
+        "wins": 0
+      },
+      "zstd19": {
+        "orig": 2810784,
+        "comp": 516357,
+        "ctime": 2.4296,
+        "dtime": 0.0077,
+        "wins": 0
+      },
+      "brotli11": {
+        "orig": 2810784,
+        "comp": 490662,
+        "ctime": 10.2749,
+        "dtime": 0.0253,
+        "wins": 0
+      },
+      "lzma9": {
+        "orig": 2810784,
+        "comp": 492276,
+        "ctime": 2.5039,
+        "dtime": 0.0481,
+        "wins": 0
+      },
+      "bzip2": {
+        "orig": 2810784,
+        "comp": 542710,
+        "ctime": 0.3149,
+        "dtime": 0.1277,
+        "wins": 0
+      },
+      "gzip9": {
+        "orig": 2810784,
+        "comp": 727952,
+        "ctime": 1.1748,
+        "dtime": 0.0204,
+        "wins": 0
+      }
+    }
+  }
+}
