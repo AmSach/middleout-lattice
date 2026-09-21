@@ -1,0 +1,39 @@
+# Build output
+engine/build/
+*.o
+*.obj
+*.d
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+dist/build/
+
+# Test artifacts
+test_ultimate_*/
+*.lattice
+
+# Large files / datasets
+local_dataset/*.lattice
+
+# IDE
+.vs/
+.vscode/settings.json
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Strictly Exclude Patent Documentation
+docs/
+*.pdf
+*.tex
+*.aux
+*.log
