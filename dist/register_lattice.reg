@@ -1,0 +1,17 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\.lattice]
+@="LatticeArchive"
+"Content Type"="application/x-lattice"
+
+[HKEY_CURRENT_USER\Software\Classes\LatticeArchive]
+@="Lattice Compressed Archive"
+
+[HKEY_CURRENT_USER\Software\Classes\LatticeArchive\DefaultIcon]
+@="%USERPROFILE%\\Desktop\\lattice_gui.exe,0"
+
+[HKEY_CURRENT_USER\Software\Classes\LatticeArchive\shell\open\command]
+@="\"C:\\Path\\To\\lattice_gui.exe\" \"%1\""
+
+[HKEY_CURRENT_USER\Software\Classes\LatticeArchive\shell\open]
+@="Open with Lattice"
