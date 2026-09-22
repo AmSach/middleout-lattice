@@ -1,0 +1,12 @@
+torch>=2.0.0
+tqdm>=4.65.0
+lightning>=2.0.0
+tensorboard>=2.13.0
+onnx>=1.14.0
+onnxruntime>=1.16.0
+onnxoptimizer>=0.3.0
+constriction>=0.2.0
+numpy
+zstandard
+brotli
+pymupdf
