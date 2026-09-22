@@ -37,70 +37,7 @@ from secure_engine_vault import (
 
 REPO_DIR = Path(__file__).resolve().parent
 STATIC_DIR = REPO_DIR
-
-# Official Verified Benchmark Data from BENCHMARKS_LEADERBOARD.md
-BENCHMARK_DATA = [
-    {
-        "id": "alice",
-        "name": "Literature (Alice in Wonderland)",
-        "corpus_file": "alice.txt",
-        "original_size": 151191,
-        "type": "Prose / English Literature",
-        "results": [
-            {"rank": 1, "engine": "Middleout-Lattice", "size": 40996, "ratio": 3.688, "time": 0.1472, "lossless": True, "highlight": True},
-            {"rank": 2, "engine": "Bzip2 (-9)", "size": 42743, "ratio": 3.537, "time": 0.0156, "lossless": True, "highlight": False},
-            {"rank": 3, "engine": "Brotli (L11)", "size": 45885, "ratio": 3.295, "time": 0.3233, "lossless": True, "highlight": False},
-            {"rank": 4, "engine": "LZMA (Preset 9)", "size": 47636, "ratio": 3.174, "time": 0.0737, "lossless": True, "highlight": False},
-            {"rank": 5, "engine": "Zstandard (L22)", "size": 48280, "ratio": 3.132, "time": 0.0735, "lossless": True, "highlight": False},
-            {"rank": 6, "engine": "Gzip (-9)", "size": 53357, "ratio": 2.834, "time": 0.0221, "lossless": True, "highlight": False},
-        ]
-    },
-    {
-        "id": "pride",
-        "name": "Large Corpus (Pride and Prejudice)",
-        "corpus_file": "pride.txt",
-        "original_size": 738046,
-        "type": "Large Literature / Linguistic",
-        "results": [
-            {"rank": 1, "engine": "Middleout-Lattice", "size": 184932, "ratio": 3.991, "time": 0.5429, "lossless": True, "highlight": True},
-            {"rank": 2, "engine": "Bzip2 (-9)", "size": 186325, "ratio": 3.961, "time": 0.0903, "lossless": True, "highlight": False},
-            {"rank": 3, "engine": "Brotli (L11)", "size": 212481, "ratio": 3.473, "time": 1.9780, "lossless": True, "highlight": False},
-            {"rank": 4, "engine": "LZMA (Preset 9)", "size": 216036, "ratio": 3.416, "time": 0.5948, "lossless": True, "highlight": False},
-            {"rank": 5, "engine": "Zstandard (L22)", "size": 218703, "ratio": 3.375, "time": 0.4005, "lossless": True, "highlight": False},
-            {"rank": 6, "engine": "Gzip (-9)", "size": 264731, "ratio": 2.788, "time": 0.1119, "lossless": True, "highlight": False},
-        ]
-    },
-    {
-        "id": "bpe_json",
-        "name": "Structured JSON / Tokenizer Vocabulary",
-        "corpus_file": "bpe_tokenizer.json",
-        "original_size": 12559,
-        "type": "Hierarchical Data / JSON",
-        "results": [
-            {"rank": 1, "engine": "Middleout-Lattice", "size": 432, "ratio": 29.072, "time": 0.0529, "lossless": True, "highlight": True},
-            {"rank": 2, "engine": "Brotli (L3)", "size": 511, "ratio": 24.577, "time": 0.0002, "lossless": True, "highlight": False},
-            {"rank": 3, "engine": "Brotli (L11)", "size": 525, "ratio": 23.922, "time": 0.0106, "lossless": True, "highlight": False},
-            {"rank": 4, "engine": "Zstandard (L3)", "size": 608, "ratio": 20.656, "time": 0.0001, "lossless": True, "highlight": False},
-            {"rank": 5, "engine": "LZMA (Preset 9)", "size": 616, "ratio": 20.388, "time": 0.0170, "lossless": True, "highlight": False},
-            {"rank": 6, "engine": "Zstandard (L19)", "size": 672, "ratio": 18.689, "time": 0.0044, "lossless": True, "highlight": False},
-        ]
-    },
-    {
-        "id": "code",
-        "name": "Software Codebase (Python Source)",
-        "corpus_file": "lattice_archive.py",
-        "original_size": 29890,
-        "type": "Source Code / Syntax",
-        "results": [
-            {"rank": 1, "engine": "Middleout-Lattice", "size": 4986, "ratio": 5.995, "time": 0.0656, "lossless": True, "highlight": True},
-            {"rank": 2, "engine": "Brotli (L11)", "size": 5301, "ratio": 5.639, "time": 0.0605, "lossless": True, "highlight": False},
-            {"rank": 3, "engine": "Zstandard (L22)", "size": 5612, "ratio": 5.326, "time": 0.0236, "lossless": True, "highlight": False},
-            {"rank": 4, "engine": "LZMA (Preset 9)", "size": 5616, "ratio": 5.322, "time": 0.0277, "lossless": True, "highlight": False},
-            {"rank": 5, "engine": "Bzip2 (-9)", "size": 5713, "ratio": 5.232, "time": 0.0033, "lossless": True, "highlight": False},
-            {"rank": 6, "engine": "Gzip (-9)", "size": 5879, "ratio": 5.084, "time": 0.0038, "lossless": True, "highlight": False},
-        ]
-    }
-]
+from api.index import BENCHMARK_DATA
 
 
 def calculate_entropy(data: bytes) -> dict:
