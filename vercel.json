@@ -1,6 +1,13 @@
 {
   "version": 2,
   "framework": null,
+  "functions": {
+    "api/index.py": {
+      "memory": 1024,
+      "maxDuration": 30,
+      "includeFiles": "lattice_archive.py,secure_engine_vault.py"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

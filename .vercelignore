@@ -1,0 +1,41 @@
+# Vercel Deployment Ignore File
+# Excludes heavy binaries, testing corpora, and C++ source to stay well below Vercel's 250MB limit
+
+# Compiled binaries and C++ tooling (150+ MB)
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+engine/
+dist/
+third_party/
+
+# Benchmarking corpora & testing datasets (50+ MB)
+test_ultimate_*
+tests/
+agada_temp/
+local_dataset/
+scratch/
+debug_test/
+assets/
+
+# Development and launcher scripts
+deploy_vercel.*
+launch_pilot.*
+test_pilot_pipeline.py
+test_vercel_handler.py
+*.bat
+*.ps1
+
+# Git and IDE
+.git
+.github
+.vscode
+.wakatime-project
+__pycache__
+*.pyc
+
+# Heavy ML requirements (offline only)
+requirements-ml.txt
