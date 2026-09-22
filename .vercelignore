@@ -39,3 +39,4 @@ __pycache__
 
 # Heavy ML requirements (offline only)
 requirements-ml.txt
+pyproject.toml
