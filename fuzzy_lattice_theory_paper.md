@@ -202,49 +202,42 @@ $$\text{Cost}(\text{BOMC}) \le \min\big(\text{Cost}(\text{Greedy}), \text{Cost}(
 
 ---
 
-## 4.1 The Exact 8.8x to 11.7x Frontier AI Tensor Mechanism (Claim 4 Deep-Dive)
+## 4.1 Frontier AI Weight Encoding: Strict Lossless vs. Semantic Quantized Regimes
 
-A central question in high-performance information theory is: **how can a floating-point neural network tensor compress by 8.76x to 11.67x while maintaining virtually zero perceptual loss?**
+An essential epistemological boundary in information theory must be enforced: **bit-exact lossless compression and precision-truncated quantization belong to fundamentally distinct mathematical regimes.**
 
-```
-IEEE-754 32-Bit Single Precision Float:
-┌───┬───────────────────────────┬────────────────────────────────────────────────────────┐
-│ S │      Exponent (8 Bits)    │                   Mantissa (23 Bits)                   │
-│ 1 │  2  3  4  5  6  7  8  9   │ 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 ... 31 │
-└───┴───────────────────────────┴────────────────────────────────────────────────────────┘
- ▲                ▲                                          ▲
- └─ Sign (1 bit)  └─ Dynamic Scale (10^-38 to 10^38)         └─ Thermal Gradient Jitter
- [100% PRESERVED] [100% PRESERVED IN HIGH-ENTROPY LANE 3]    [DYNAMIC ZEROING / QUANT]
-```
+Comparing a masked or quantized representation directly against a lossless compressor (such as Zstandard) is a category error, as discarding mantissa bits reduces entropy via irreversible information destruction ($D > 0$). To preserve absolute academic and scientific integrity, we explicitly bifurcate our evaluation into two distinct, independent regimes:
 
-### The Three-Phase Thermodynamic Pipeline:
-1. **Dynamic Dynamic-Range Preservation:** 
-   The sign bit (bit 31) and the entire 8-bit biased exponent (bits 30..23) are **100% strictly preserved**. This guarantees that the dynamic dynamic-range of the layer (from $10^{-38}$ to $10^{+38}$) is untouched. Zero gradient vanishing occurs.
-2. **Thermal Mantissa Zeroing (Claim 4):**
-   In frontier transformers, the lower 16 to 23 bits of the mantissa represent high-frequency optimizer noise generated during AdamW backpropagation. Applying a dynamic mask:
-   $$\text{Mask}_{23} = \texttt{0xFF800000}$$
-   Zeros out the lower 23 bits, reducing the mantissa to a discrete power-of-two exponent scale while retaining a Mean Squared Error of $\text{MSE} \le 2.48 \times 10^{-4}$.
-3. **Planar Transposition Acceleration:**
-   Once masked, Middleout-Lattice's planar transpose reorganizes the tensor such that Bytes 0, 1, and 2 become **uniform monolithic zero streams**. These zero planes compress at $\approx 1500\text{x}$ via U-RLPF, leaving only the 8-bit exponent stream to be delta-encoded by the Entropy Mixer.
+---
 
-### Exact Empirical Verification (Source: `quantize_and_compress.py`)
-Tested live on 4,194,304 bytes (1,048,576 parameters) of continuous Gaussian neural weights:
+### Regime A: 100% Bit-Exact Lossless Tensor Compression
+In the lossless regime, every single bit of the IEEE-754 representation (all 23 mantissa bits, 8 exponent bits, and 1 sign bit) is reconstructed bit-for-bit with **zero Mean Squared Error ($\text{MSE} = 0.00$)** and verified SHA-256 identity.
 
-| Method / Strategy | Compressed Size | Compression Ratio | Space Saved | Mean Squared Error (MSE) | vs. Zstd-22 Delta |
+* **Why Titans Struggle:** In raw 1D memory, the lower mantissa bytes appear as high-entropy pseudo-random noise ($H \approx 7.98\text{ bits/byte}$). Zstandard Level 22 achieves only **1.081x** (3,879,912 B on a 4.19 MB layer).
+* **The Lattice Planar Transpose:** By transposing the layer into 4 orthogonal planar memory lanes and applying monotonic ordinal mapping, Middleout-Lattice isolates the structured exponent lane ($b_3$) from the mantissa residuals.
+* **The Lossless Result:** Middleout-Lattice compresses the 4.19 MB weight layer to **3,493,224 Bytes (1.200x ratio)**, saving **+386,688 bytes more than Zstandard Level 22** with **100% lossless bit-exact verification**.
+
+---
+
+### Regime B: Semantic Precision-Truncated Quantization (Bounded Distortion)
+In neural network inference, the lower 16 to 23 bits of an FP32 mantissa often represent stochastic optimizer variance from AdamW training. When deploying to edge hardware, engineers intentionally trade negligible numerical precision ($\text{MSE} \le 10^{-4}$) for massive bandwidth reductions.
+
+Rather than comparing this lossy regime against lossless Zstandard, we benchmark Middleout-Lattice against **standard industrial quantization baselines (Raw INT8 and Raw INT4)**:
+
+| Method / Quantization Level | Compressed Size | Effective Compression | Baseline Equivalent | Gain Over Raw Quantization | Distortion (MSE) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Raw FP32 Weights** | 4,194,304 B | 1.00x | 0.0% | 0.00 | Baseline |
-| **Zstandard (Level 22 Titan)** | 3,879,912 B | 1.08x | 7.5% | 0.00 | Baseline |
-| **Strict Lossless Lattice** | 3,493,224 B | **1.20x** | 16.7% | **0.00 (Bit-Exact)** | **+386,688 B WIN** |
-| **Mask Preset 1 (8-bit)** | 2,444,772 B | **1.72x** | 41.7% | $4.17 \times 10^{-13}$ | **1.58x Smaller than Zstd** |
-| **Mask Preset 2 (16-bit)** | 1,395,709 B | **3.01x** | 66.7% | $2.73 \times 10^{-8}$ | **2.78x Smaller than Zstd** |
-| **Custom Mask (18-bit)** | 1,133,703 B | **3.70x** | 73.0% | $4.31 \times 10^{-7}$ | **3.42x Smaller than Zstd** |
-| **Custom Mask (20-bit)** | 873,213 B | **4.80x** | 79.2% | $6.52 \times 10^{-6}$ | **4.44x Smaller than Zstd** |
-| **Custom Mask (22-bit)** | 616,372 B | **6.80x** | 85.3% | $8.28 \times 10^{-5}$ | **6.29x Smaller than Zstd** |
-| **Mask Preset 3 (23-bit)** | **478,851 B** | **8.76x** | **88.6%** | **$2.48 \times 10^{-4}$** | **8.10x SMALLER THAN ZSTD-22!** |
-| **INT8 Quantization + Lattice** | 894,241 B | **4.69x** | 78.7% | $2.89 \times 10^{-7}$ | **4.33x Smaller than Zstd** |
-| **INT4 Quantization + Lattice** | **359,559 B** | **11.67x** | **91.4%** | **$8.37 \times 10^{-5}$** | **10.79x SMALLER THAN ZSTD-22!** |
+| **Raw FP32 Uncompressed** | 4,194,304 B | 1.00x | 32 bits / param | Baseline | 0.00 |
+| **Raw INT8 Baseline** | 1,048,576 B | 4.00x | 8 bits / param | Baseline | $2.89 \times 10^{-7}$ |
+| **INT8 + Middleout-Lattice** | **894,241 B** | **4.69x** | **6.8 bits / param** | **+14.7% smaller than Raw INT8** | $2.89 \times 10^{-7}$ |
+| **Raw INT4 Baseline** | 524,288 B | 8.00x | 4 bits / param | Baseline | $8.37 \times 10^{-5}$ |
+| **INT4 + Middleout-Lattice** | **359,559 B** | **11.67x** | **2.7 bits / param** | **+31.4% smaller than Raw INT4!** | $8.37 \times 10^{-5}$ |
+| **Mantissa Mask (Preset 3, 23-bit)**| **478,851 B** | **8.76x** | **3.6 bits / param** | Exponent-Preserved Float | $2.48 \times 10^{-4}$ |
 
-> **Reproducibility Note:** Any researcher can independently replicate this exact benchmark by executing:
+### Key Discovery in Regime B:
+Standard deep learning frameworks stop at INT4 (8.00x reduction = 4 bits per parameter). 
+By coupling **INT4 quantization with Middleout-Lattice’s multi-model entropy mixer**, the model compresses to **359,559 Bytes (11.67x reduction, or 2.74 bits per parameter)**—delivering a **31.4% additional compression gain over raw INT4 quantization alone** at identical precision!
+
+> **Reproducibility Note:** Researchers can independently replicate both the 100% lossless and quantized regimes via:
 > `python quantize_and_compress.py` directly from the repository.
 
 ---
